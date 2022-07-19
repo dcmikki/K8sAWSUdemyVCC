@@ -2,6 +2,7 @@ Con manifest:
 
 kubectl apply -f ejemplo.yaml
 kubectl get all
+kubectl get all -o wide
 kubectl delete -f ejemplo.yaml
 
 Sin manifest:

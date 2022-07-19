@@ -1,0 +1,9 @@
+kubectl get nodes
+
+kubectl describe node minikube
+
+kubectl describe nodes
+kubectl get nodes -o wide
+kubectl get nodes -o json
+kubectl get nodes -o yaml
+
