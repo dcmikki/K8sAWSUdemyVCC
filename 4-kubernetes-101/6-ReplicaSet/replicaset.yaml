@@ -1,17 +1,13 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: frontend
-  labels:
-    project: frontend
-    environment: testing
+  name: nginx-testing
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
-    matchExpressions:
-      - {key: environment, operator: In, values: [testing]}
+      environment: testing
   template:
     metadata:
       labels:
@@ -20,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest
+        image: nginx
         ports:
         - containerPort: 80
