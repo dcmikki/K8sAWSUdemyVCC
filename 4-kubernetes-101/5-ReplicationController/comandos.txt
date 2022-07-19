@@ -1,3 +1,6 @@
+
+# replicationcontroller is obsolete --> new replicaset !!
+
 kubectl apply -f pod-replicationcontroller.yaml 
 kubectl get all
 kubectl delete pod nginx-testing-xxxxx
