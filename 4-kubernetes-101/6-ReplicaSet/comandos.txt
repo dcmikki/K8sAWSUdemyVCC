@@ -2,4 +2,6 @@ kubectl apply -f replicaset.yaml
 kubectl get all
 kubectl get pod,rs
 
+kubectl describe rs
+
 kubectl delete -f replicaset.yaml 
