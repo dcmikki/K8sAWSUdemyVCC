@@ -1,0 +1,43 @@
+
+kubectl apply -f replicaset.yaml
+kubectl get all
+kubectl get all -o wide
+kubectl get all --show-labels
+
+kubectl apply -f servicio.yaml
+kubectl get all --show-labels
+
+# ClusterIP --> ip solo disponibles DENTRO del cluster
+# Conectar a uno de los pods
+kubectl exec -it nginx-testing-clusterip-dqblt bash
+root@nginx-testing-clusterip-dqblt:/# curl 10.110.181.78:8080 
+
+# ahora si resuelve la ip !!
+
+# Discovery Service
+root@nginx-testing-clusterip-dqblt:/# curl servicio-clusterip:8080
+# resuelve nginx como antes 
+
+###
+Conection from node
+###
+minikube ssh
+
+	--> curl 10.110.181.78:8080 --> works
+	--> curl servicio-clusterip:8080 --> NOt working
+	--> pods have access to services NOT nodes
+
+
+
+kubectl describe service servicio-clusterip 
+kubectl describe services servicio-clusterip 
+kubectl describe svc servicio-clusterip 
+
+kubectl delete -f .
+
+
+
+
+
+
+

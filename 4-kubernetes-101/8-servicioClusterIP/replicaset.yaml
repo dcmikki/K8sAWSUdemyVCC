@@ -3,7 +3,7 @@ kind: ReplicaSet
 metadata:
   name: nginx-testing-clusterip
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: nginx
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx
+        image: nginx:alpine
         ports:
         - containerPort: 80
