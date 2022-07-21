@@ -1,4 +1,6 @@
 # Esternal Name
 # Permite crear un alias DNS solo aplicable a nuestro cluster
+
 # Se usa mucho para migraciones !!
+
 
