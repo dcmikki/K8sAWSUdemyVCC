@@ -1,0 +1,3 @@
+# Minikube has only one node
+
+# See kubernetes 102 --> deploy EKS in Amazon !!
