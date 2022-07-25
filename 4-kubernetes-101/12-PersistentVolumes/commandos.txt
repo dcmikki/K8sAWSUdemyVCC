@@ -1,0 +1,28 @@
+kubectl get persistentvolume
+kubectl get pv
+
+kubectl get persistentvolumeclaims
+kubectl get pvc
+kubectl get pv,pvc
+kubectl describe pvc pv-volume-claim-1
+
+kubectl apply -f pod.yaml
+kubectl get pods
+kubectl exec -it pv-pod bash
+mount | grep /usr/share/nginx/html
+
+cd /usr/share/nginx/html
+echo "Hola desde el pod" > index.html  	# persistente
+echo "Hola desde el pod" > /index.html  # No persiste al eliminar el pod
+
+kubectl apply -f replicaset.yaml
+kubectl get pods
+kubectl exec -it replicaset-with-volumes-gtklj  cat /usr/share/nginx/html/index.html
+kubectl exec -it replicaset-with-volumes-qcx7w  cat /usr/share/nginx/html/index.html
+
+# check volume in cluster --> minikube
+minikube ssh
+cat /mnt/data/pv-volume-001/index.html 
+
+
+
