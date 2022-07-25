@@ -1,0 +1,52 @@
+
+kubectl get configmaps
+kubectl get configmap
+kubectl get cm
+
+# Create from command line (literal)
+kubectl create configmap test-cm --from-literal variable1=billy
+kubectl get cm test-cm
+kubectl get cm test-cm  -o yaml
+kubectl get cm test-cm  -o json
+kubectl describe cm test-cm
+kubectl delete cm test-cm
+
+# Create from manifest
+# Get manifest via --dry-run=client --> Simulate the command !!
+kubectl create configmap test-cm --from-literal variable1=billy --dry-run=client -o yaml
+kubectl create configmap test-cm --from-literal variable1=billy --from-literal variable2=jasper --dry-run=client -o yaml
+
+kubectl create configmap test-cm --from-literal variable1=billy --from-literal variable2=jasper --dry-run=client -o yaml > billy_yasper.yaml
+
+#######################################################
+# In pod  --> Inject configmap as environment variable
+#######################################################
+kubectl apply -f pod-cm-literal.yaml
+kubectl get all
+kubectl exec -it nginx-cm env
+
+###########################################
+# Inject directories or files as volumes
+###########################################
+kubectl create cm nginx-config-dir --from-file=nginx-config-map/ --dry-run=client -o yaml
+kubectl create cm nginx-config-dir --from-file=nginx-config-map
+kubectl get cm
+kubectl describe cm nginx-config-dir 
+
+
+kubectl apply -f pod-cm-file.yaml
+kubectl exec -it pod/nginx-cm-file bash
+
+mount | grep nginx
+/dev/vda1 on /etc/nginx/conf.d type ext4 (ro,relatime)
+
+kubecyl delete -f .
+kubectl delete cm --all
+
+
+
+
+
+
+
+
