@@ -1,0 +1,85 @@
+# crear secrets sin saltos de linea
+echo -n admin > username
+echo -n ksdngkdsvbeivx4 > password
+echo -n billy | base64
+
+kubectl create secret generic credenciales --from-file=./username  --from-file=./password 
+
+kubectl get secrets
+kubectl describe secrets credenciales 
+
+### desde un manifesto
+kubectl create secret generic credenciales --from-file=./username  --from-file=./password --dry-run=client -o yaml
+
+apiVersion: v1
+data:
+  password: aG9sYW11bmRvYmlsbHk=
+  username: YWRtaW4=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: credenciales
+
+# Base 64 encryptado
+echo aG9sYW11bmRvYmlsbHk= | base64 -d
+holamundobillydiego@thinkpad:~
+
+kubectl get secrets credenciales -o yaml 
+
+###########################################################################
+# montar credentiales en pod
+#################################
+
+# 1) forma sencilla
+kubectl apply -f credenciales.yaml 
+kubectl apply -f pod-secrets.yaml
+kubectl exec -it nginx-secrets-mount  bash   	# ---> old way
+kubectl exec nginx-secrets-mount -- bash		  # ---> new format
+
+kubectl exec nginx-secrets-mount -- ls /etc/secrets
+
+# 2) Mismo mode pero solo montando uno de los secretos
+
+kubectl apply -f pod-secret-mount-item.yaml
+kubectl exec -it nginx-secrets-mount-item  ls /etc/secrets
+kubectl exec nginx-secrets-mount-item -- ls -hl /etc/secrets
+
+kubectl exec nginx-secrets-mount-item -- cat /etc/secrets/password 
+
+## Con un pod corriendo no se puede cambiar el volumen en caliente en el manifiesto del pod 
+## Solucion edit / cambiar el secreto en caliente en base64 sin detener el pod
+
+kubectl edit secrets credenciales-manifest --> se abre editor por defecto
+
+####################################################################################
+# Se puede acceder a los configmaps o secret por Variables de entorno o Secrets
+###
+## Nota: las variable de entorno no permiten edit en caliente
+
+
+# 3) Montando los secretos en el pod con Variable the entorno
+
+kubectl apply -f pod-secret-mount-item-envvar.yaml 
+kubectl exec -it nginx-secrets-mount-item-envvar env | sort
+
+...
+SECRET_PASSWORD=123456789boom
+SECRET_USERNAME=admin
+
+
+# 4) Montando secrets como variables de entorno + claves ssh via volumen
+
+#ssh-keygen -f id_rsa
+#ssh-keygen -b 3072 -t rsa -f billy_key      # valor por defecto
+ssh-keygen -b 4096 -t rsa -f billy_key      # valor por defecto
+
+
+
+
+
+
+
+
+
+
+
