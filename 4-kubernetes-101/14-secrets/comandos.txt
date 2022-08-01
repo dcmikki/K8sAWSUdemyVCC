@@ -72,6 +72,10 @@ SECRET_USERNAME=admin
 #ssh-keygen -f id_rsa
 #ssh-keygen -b 3072 -t rsa -f billy_key      # valor por defecto
 ssh-keygen -b 4096 -t rsa -f billy_key      # valor por defecto
+kubectl create secret generic ssh-key-secret --from-file=./billy_key --from-file=./billy_key.pub  --dry-run -o yaml
+kubectl create secret generic ssh-key-secret --from-file=./billy_key --from-file=./billy_key.pub
+kubectl apply -f pod-secret-mount-item-envvar-w-ssh.yaml
+
 
 
 
