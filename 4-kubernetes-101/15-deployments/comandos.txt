@@ -43,7 +43,11 @@ error: you cannot rollback a paused deployment; resume it first with 'kubectl ro
 kubectl rollout status deployment nginx-deployment      --> (muestra el eestado actual del ultimo rollout)
 kubectl rollout status deployment nginx-deployment -w
 
+# Interesante para ver que images esta pasando
 
+## Rollout para estos recuerson --->  daemonset    deployment   statefulset #no solo reployment
+
+# rollout interesante para 2-3 deployment diarios
 
 
 
