@@ -1,0 +1,55 @@
+# Permite deplegar apps pudiendo usar kubectl rollout sin perdida de servicio
+# volviendo a versiones anteriores
+
+# Gestionan los pods via replicaset !
+# Guarda hasta 10 versiones en el historial si se cambia la imagen
+
+kubectl apply -f nginx-deployment.yml
+
+# cambiando la image en el manifest desplega un nuevo replicaset
+clear;kubectl get all -o wide
+
+###################
+# USING ROLLBACK
+###################
+
+nginx --> 1.7.9 
+
+kubectl rollout history deployment nginx-deployment
+kubectl set image deployment nginx-deployment nginx=nginx:alpine (cambia imagen)
+kubectl rollout history deployment nginx-deployment   (2 revisiones no texto)
+
+kubectl set image deployment nginx-deployment nginx=nginx:1.7.9 --record=true     (mas info)
+
+```
+REVISION  CHANGE-CAUSE
+3         kubectl set image deployment nginx-deployment nginx=nginx:1.7.9 --record=true
+4         kubectl set image deployment nginx-deployment nginx=nginx:alpine --record=true
+5         kubectl set image deployment nginx-deployment nginx=nginx:latest --record=true
+```
+
+# Supongamos que images latest esta mal y hay que volver a la anterior
+kubectl rollout undo deployment nginx-deployment      --> (vuelve al deployment anterior)
+
+kubectl rollout undo deployment nginx-deployment --to-revision=3
+
+kubectl rollout pause deployment nginx-deployment       (pause el rollout)
+
+```
+kubectl rollout undo deployment nginx-deployment --to-revision=6
+error: you cannot rollback a paused deployment; resume it first with 'kubectl rollout resume deployment/nginx-deployment' and try again
+```
+
+kubectl rollout status deployment nginx-deployment      --> (muestra el eestado actual del ultimo rollout)
+kubectl rollout status deployment nginx-deployment -w
+
+
+
+
+
+
+
+
+
+
+
