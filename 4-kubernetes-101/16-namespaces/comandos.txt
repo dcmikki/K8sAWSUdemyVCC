@@ -1,0 +1,50 @@
+# Namespaces permite organizar los recursoso en diferentes "espacios de nombres"
+# Permite aislar recursos
+# namespace debe ser unico
+
+kubectl get namespaces
+kubectl get all
+kubectl get all --namespace default  	(lo mismo)
+kubectl --namespace default get all   	(lo mismo)
+kubectl -n default get all   	(lo mismo)
+
+kubectl -n kube-system get all
+
+# mostrar mas info en todos los namespaces
+kubectl get pods -A
+kubectl get svc -A
+kubectl get all -A
+
+# Limitaciones namespaces recursos (no todos. Example volumes no funciona)
+kubectl api-resources
+kubectl api-resources --namespaced=false
+kubectl api-resources --namespaced=true
+
+#####################
+Crear namespace
+#####################
+
+kubectl create namespace pruebas
+kubectl create ns pruebas
+kubectl get namespaces
+
+kubectl create namespace testing --dry-run=client -o yaml
+
+kubectl apply -f namespace.yaml
+kubectl -n test-namespace get all
+
+# Default Namespace siempre ---> sino se especifica
+
+#######################
+Eliminar namespace
+######################
+kubectl delete namespaces test-namespace
+kubectl delete ns test-namespace
+
+# Elimina TODOS los recursos dentro dentro del namespace ---> cuidado
+
+
+
+
+
+
