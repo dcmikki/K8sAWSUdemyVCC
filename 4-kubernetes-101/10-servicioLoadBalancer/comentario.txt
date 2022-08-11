@@ -2,3 +2,4 @@
 # See kubernetes 102 --> deploy EKS in Amazon !!
 
 # Nuevas minikube permite desplegar mas de un nodo !!
+
