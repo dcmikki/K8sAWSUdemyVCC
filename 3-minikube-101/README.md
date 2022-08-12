@@ -64,3 +64,43 @@ It possible to pass all the defaults configuration in a config.json file, instea
 }
 ```
 
+
+## Install Minikube multi node cluster
+
+Install minukube with two nodes from the scratch
+```
+minikube start --driver=kvm2 --cpus=2 --memory=2400mb --disk-size=15000mb --nodes=2 -p vcc
+```
+
+### Minikube check commands
+
+```
+$ minikube -p vcc node list
+vcc     192.168.39.11
+vcc-m02 192.168.39.122                                                                  
+```
+
+```
+$ minikube -p vcc profile list                                                  
+|---------|-----------|---------|----------------|------|---------|---------|-------|--------|
+| Profile | VM Driver | Runtime |       IP       | Port | Version | Status  | Nodes | Active |
+|---------|-----------|---------|----------------|------|---------|---------|-------|--------|
+| vcc     | kvm2      | docker  | 192.168.39.11  | 8443 | v1.24.1 | Running |     2 | *      |
+|---------|-----------|---------|----------------|------|---------|---------|-------|--------|
+```
+
+```
+$ minikube -p vcc status
+vcc
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+vcc-m02
+type: Worker
+host: Running
+kubelet: Running
+
+```
