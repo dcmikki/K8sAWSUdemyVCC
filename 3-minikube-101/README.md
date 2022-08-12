@@ -64,7 +64,6 @@ It possible to pass all the defaults configuration in a config.json file, instea
 }
 ```
 
-
 ## Install Minikube multi node cluster
 
 Install minukube with two nodes from the scratch
