@@ -1,0 +1,33 @@
+# Permite acceder al cluster a traves de un puerto del nodo a los pods
+
+kubectl apply -f replicaset.yaml
+kubectl apply -f servicio.yaml
+
+
+$ kubectl get all
+NAME                               READY   STATUS    RESTARTS   AGE
+pod/nginx-testing-nodeport-846pg   1/1     Running   0          12m                                           
+pod/nginx-testing-nodeport-v5f2l   1/1     Running   0          12m
+
+NAME                        TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+service/kubernetes          ClusterIP   10.96.0.1      <none>        443/TCP        25m          
+service/servicio-nodeport   NodePort    10.109.15.49   <none>        80:31369/TCP   9m25s        
+
+NAME                                     DESIRED   CURRENT   READY   AGE
+replicaset.apps/nginx-testing-nodeport   2         2         2       12m
+
+# El puerto del nodo 31369 esta mapeado con el 80 del pod
+# El puerto 31369 esta abierto y se puede acceder con la IPv4 del cluster
+
+$ minikube ip
+192.168.39.74
+
+curl 192.168.39.74:80 		--> no funciona (puerto 80 no est abierto)
+curl 192.168.39.74:31369 	--> nginx home page !!!
+
+# Se puede fijar el puerto que se quiera 
+# Ver servicio-fixed-port.yaml
+
+
+
+
