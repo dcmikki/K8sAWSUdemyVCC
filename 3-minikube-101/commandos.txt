@@ -1,0 +1,20 @@
+# Basico
+minikube status
+kubectl get nodes
+minikube -p vcc node list
+
+minikube -p vcc pause
+minikube -p vcc unpause
+
+minikube -p vcc stop
+minikube -p vcc start
+
+minikube -p vcc delete
+
+# Interesante
+minikube profile list (se puede crear diferentes cluster con distintos perfiles y providers)
+
+# configurar el cluster
+minikube config list
+
+

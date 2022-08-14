@@ -1,4 +1,4 @@
-# Autentificarnos en Kubernetes
+# Autentificación en Kubernetes
 
 ## Mas comunes
 * Bearer Tokens
@@ -9,8 +9,8 @@
 ## Minikube Certificados x509
 
 * Hay un certificado generado para usuario
-* Todos los certificados estan firmados for un CA (tiene parte publica y privada)
-* La comunicacion va encriptada y kubernetes comprueba si esta firmada for el CA generado al crear el cluster
+* Todos los certificados están firmados por un CA (tiene parte publica y privada)
+* La comunicación va encriptada y Kubernetes comprueba si esta firmada por el CA generado al crear el clúster
 
 ### Location
 
@@ -23,7 +23,7 @@ ca.pem
 ...
 ```
 
-## Configurar Nuevo Usuario con acceso al cluster
+## Configurar Nuevo Usuario con acceso al clúster
 
 Ejemplo con `vagrant` user de otra VM
 
@@ -92,10 +92,10 @@ Hay que generar todos los ficheros con openssl
 /home/vagrant/.kube/ca.crt
 ```
 
-NOTA: El fichero `ca.crt` corresponde con la parte publica de CA de minikube en `~/.minikube/ca.crt`
+NOTA: El fichero `ca.crt` corresponde con la parte publica de CA de Minikube en `~/.minikube/ca.crt`
 
 
-### OpenSSL comandos desde minikube host
+### OpenSSL comandos desde Minikube host
 
 #### Generar un random seed para openssl
 
@@ -118,7 +118,7 @@ diego@thinkpad:~/usuarios/vagrant$ vagrant.key
 ``` 
 
 #### Certificate signing request (CSR) `vagrant.csr`
-Usando `vagrant.key` de antes se genera un CSR para la comunicaion con el cluster con una configuracion especifica. Hay que asignar un Common Name  y grupo al hacer la peticion:
+Usando `vagrant.key` de antes se genera un CSR para la comunicación con el clúster con una configuración especifica. Hay que asignar un “Common Name” y grupo al hacer la petición:
 
 ```
 diego@thinkpad:~/usuarios/vagrant$ openssl req -new -key vagrant.key -out vagrant.csr -subj "/CN=vagrant/O=developers"
@@ -128,7 +128,7 @@ vagrant.csr  vagrant.key
 ```
 
 #### Generar `vagrant.crt`
-El CSR anterior se firma con el `CA` de minikube (parte publica y privada de CA) y genera el fichero `vagrant.crt`.
+El CSR anterior se firma con el `CA` de Minikube (parte publica y privada de CA) y genera el fichero `vagrant.crt`.
 
 ```
 diego@thinkpad:~/usuarios/vagrant$ openssl x509 -req -in vagrant.csr -CA ~/.minikube/ca.crt -CAkey ~/.minikube/ca.key -CAcreateserial -out vagrant.crt -days 500
@@ -140,7 +140,7 @@ diego@thinkpad:~/usuarios/vagrant$ ls
 vagrant.crt  vagrant.csr  vagrant.key
 ```
 
-Se envian los ficheros generados al client (vagrant box) y se ejecuta de nuevo kubectl.
+Se envían los ficheros generados al client (vagrant box) y se ejecuta de nuevo kubectl.
 
 ```
 vagrant@automation:~/.kube$ kubectl get pods
@@ -148,20 +148,20 @@ vagrant@automation:~/.kube$ kubectl get pods
 Error from server (Forbidden): pods is forbidden: User "vagrant" cannot list resource "pods" in API group "" in the namespace "default"
 ```
 
-La conexion del usuario al cluster ha sido satisfactoria. El error del cluster es que porque no hay permisos para listar recursos tipo `pods` en el default namespace
+La conexión del usuario al clúster ha sido satisfactoria. El nuevo error es porque no hay permisos para listar los recursos tipo `pods` en el default namespace
 
 
 #### Importante
-* Autentificacion x509 --> done
+* Autentificación x509 --> done
 * Permisos con roles via `RBAC`.
 
 
 ## RBAC (Role-based access control)
-Los `RBAC` permiten a los para los usuarios ejecutar tareas despues de autentificarnos (x509) con el cluster.
+Los `RBAC` permiten a los usuarios ejecutar tareas después de autentificarse (x509) en el clúster.
 
 
 ### rbac-role.yaml
-Define un tipo de permiso para el grupo `developers` con unas acciones sobre ciertos recursos. Aqui solo se le asignan permisos de lectura al los pods del `default` namespace.
+Define un tipo de permiso para el grupo `developers` con unas acciones sobre ciertos recursos. Aquí solo se le asignan permisos de lectura al los pods del `default` namespace.
 
 ```
 kind: Role
@@ -222,5 +222,4 @@ vagrant@automation:~/.kube$ kubectl delete pod nginx
 Error from server (Forbidden): pods "nginx" is forbidden: User "vagrant" cannot delete resource "pods" in API group "" in the namespace "default"
 ```
 
-Como se esperaba el usuario `vagrant` del group `developers` no tiene permisos para borrar pods. Si podria anadir el verbo `delete` al role para dar mas permisos, etc.
-
+Como se esperaba el usuario `vagrant` del group `developers` no tiene permisos para borrar los pods. Si podría añadir el verbo `delete` al role para dar mas permisos, etc.
