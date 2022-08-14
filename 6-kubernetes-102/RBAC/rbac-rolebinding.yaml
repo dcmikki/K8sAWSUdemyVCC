@@ -1,0 +1,13 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: developers
+subjects:
+- kind: User
+  name: vagrant     # name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role        # this must be Role or ClusterRole
+  name: developers  # must match the name of the Role
+  apiGroup: rbac.authorization.k8s.io
