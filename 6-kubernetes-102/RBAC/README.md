@@ -201,7 +201,7 @@ $ kubectl apply -f rbac-role.yaml -f rbac-rolebinding.yaml
 
 Para testear si el usuario `vagrant` puede ver los pods, desplegamos un pod:
 ```
-kubectl apply -f pod1.yaml 
+$ kubectl apply -f pod1.yaml 
 pod/nginx created                                                          
 ```
 
