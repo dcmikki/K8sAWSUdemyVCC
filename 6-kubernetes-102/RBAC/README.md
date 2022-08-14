@@ -1,4 +1,4 @@
-# Formas de autentificarnos en Kubernetes
+# Autentificarnos en Kubernetes
 
 ## Mas comunes
 * Bearer Tokens
