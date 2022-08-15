@@ -30,6 +30,12 @@ vcc     192.168.39.169
 vcc-m02 192.168.39.43                                                                  
 ```
 
+
+```
+minikube -p vcc --node=vcc ssh
+minikube -p vcc --node=vcc-m02 ssh
+```
+
 ## kubectl commands
 
 ```
